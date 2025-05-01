@@ -1,0 +1,790 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #3498db;
+  --primary-dark: #2980b9;
+  --secondary-color: #2ecc71;
+  --error-color: #e74c3c;
+  --text-color: #333;
+  --light-bg: #f8f9fa;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f5f7fa;
+  color: var(--text-color);
+  line-height: 1.6;
+  padding-bottom: 2rem;
+}
+
+/* Adjust header positioning to properly center the logo */
+header {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  padding: 1rem; /* Reset padding to standard */
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 1.5rem;
+  position: relative;
+  height: 180px; /* Fixed height to accommodate logo */
+  display: flex;
+  align-items: center; /* Vertically center content */
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+/* Add instructions section */
+.instructions {
+  background: white;
+  max-width: 500px;
+  margin: 0 auto 1.5rem auto;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--primary-color);
+}
+
+.instructions h3 {
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.instructions ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0;
+}
+
+.instructions li {
+  margin-bottom: 0.5rem;
+}
+
+/* Enhanced Scanner Container */
+#scanner-container {
+  position: relative;
+  margin: 1.5rem auto;
+  max-width: 500px;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background-color: #000;
+  transform: translateZ(0);
+  width: 100%;
+}
+
+#scanner-container:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+#scanner-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+/* Replace solid box with corner brackets */
+#scanner-target {
+  width: 70%;
+  height: 70%;
+  position: relative;
+  animation: pulse 2s infinite;
+}
+
+/* Create the corner brackets */
+#scanner-target::before,
+#scanner-target::after,
+#scanner-target span::before,
+#scanner-target span::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--primary-color);
+  border-style: solid;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
+}
+
+/* Top left corner */
+#scanner-target::before {
+  top: 0;
+  left: 0;
+  border-width: 3px 0 0 3px;
+}
+
+/* Top right corner */
+#scanner-target::after {
+  top: 0;
+  right: 0;
+  border-width: 3px 3px 0 0;
+}
+
+/* Bottom left corner */
+#scanner-target span::before {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 3px 3px;
+}
+
+/* Bottom right corner */
+#scanner-target span::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 3px 3px 0;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+  }
+}
+
+video#scanner-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Move status container below scanner and above employee info */
+main {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Adjust the status container layout to ensure proper stacking */
+#status-container {
+  background: white;
+  box-shadow: var(--shadow-md);
+  padding: 1rem;
+  margin: 0 auto 1.5rem auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: flex-start; /* Align items to the left */
+  order: 1;
+  min-height: 50px;
+  position: relative;
+}
+
+#scanner-container {
+  order: 0;
+}
+
+#employee-info {
+  order: 2;
+}
+
+/* Paper material design for card containers */
+#employee-info, #status-container {
+  background: white;
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+  transform: translateY(0);
+  border-radius: 0; /* Remove rounded corners for paper effect */
+}
+
+#employee-info:hover, #status-container:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+#employee-info.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  position: absolute; /* Add this to remove it from the flow when hidden */
+  visibility: hidden; /* Add this to fully hide it */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+#employee-info table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+#employee-info th {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  color: var(--primary-dark);
+  width: 40%;
+}
+
+#employee-info td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  font-weight: 500;
+}
+
+/* Action Container */
+#action-container {
+  margin-top: 1.5rem;
+}
+
+#action-container h3 {
+  margin-top: 0;
+  color: var(--primary-dark);
+  font-size: 1.1rem;
+  border-left: 3px solid var(--primary-color);
+  padding-left: 10px;
+}
+
+.action-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem; /* Add padding for scrollbar */
+  scrollbar-width: thin; /* For Firefox */
+}
+
+/* Style the scrollbar for webkit browsers */
+.action-options::-webkit-scrollbar {
+  height: 4px;
+}
+
+.action-options::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+.action-options::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+.action-options label {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: var(--transition);
+  white-space: nowrap; /* Prevent label text from wrapping */
+  flex-shrink: 0; /* Prevent labels from shrinking */
+}
+
+.action-options label:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.action-options input[type="radio"] {
+  margin-right: 0.5rem;
+  accent-color: var(--primary-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 0.5rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+button:hover {
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+#scan-again-btn {
+  background-color: #95a5a6;
+}
+
+#scan-again-btn:hover {
+  background-color: #7f8c8d;
+}
+
+/* Status container and message alignment */
+#status-container {
+  background: white;
+  box-shadow: var(--shadow-md);
+  padding: 1rem;
+  margin: 0 auto 1.5rem auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: flex-start; /* Align items to the left */
+  order: 1;
+  min-height: 50px;
+  position: relative;
+}
+
+/* Status message styling with colors */
+#status-message {
+  padding: 0;
+  height: 0;
+  margin: 0;
+  border-radius: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: 0;
+  width: calc(100% - 100px); /* Make room for network status */
+  display: flex; /* Add flex display */
+  align-items: center; /* Center content vertically */
+  min-height: 24px; /* Ensure consistent height */
+}
+
+#status-message:not(:empty) {
+  padding: 0.75rem;
+  height: auto;
+  margin-bottom: 0; /* Remove margin to preserve centering */
+  opacity: 1;
+}
+
+/* Error messages styling (red) */
+#status-message.error {
+  background-color: #ffebee;
+  color: #c62828;
+  border-left: 4px solid #c62828;
+}
+
+/* Info messages styling (blue) */
+#status-message.info,
+#status-message.login-success {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border-left: 4px solid #1565c0;
+}
+
+/* Success messages styling (green) */
+#status-message.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-left: 4px solid #2e7d32;
+}
+
+/* Update CSS for the pending syncs container */
+#pending-syncs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: #fff8e1;
+  border-left: 4px solid #ff9800;
+  color: #ff9800;
+  font-size: 0.9rem;
+  margin-top: 0.5rem; /* Add space between status indicator and this notification */
+  width: 100%;       /* Take full width */
+  box-sizing: border-box;
+  border-radius: 0;  /* Consistent with your design */
+}
+
+#pending-syncs.hidden {
+  display: none;
+}
+
+#pending-count {
+  font-weight: bold;
+  margin: 0 0.25rem;
+}
+
+/* Add this new class to stop the pulse animation */
+#scanner-target.scan-success {
+  animation: none;
+  box-shadow: 0 0 8px rgba(46, 204, 113, 0.8); /* Green glow for success */
+}
+
+/* Also update the corner brackets for success state */
+#scanner-target.scan-success::before,
+#scanner-target.scan-success::after,
+#scanner-target.scan-success span::before,
+#scanner-target.scan-success span::after {
+  border-color: var(--secondary-color); /* Change to green */
+}
+
+/* Add this for the captured image */
+#captured-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none; /* Hidden by default */
+  z-index: 5; /* Below the scanner target but above the video */
+}
+
+/* Update the scanner instructions styling */
+#scanner-instructions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+  color: rgba(255, 255, 255, 0.6); /* Make slightly more transparent */
+  font-size: 0.9rem;
+  font-weight: 400; /* Less bold */
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Subtle shadow for legibility */
+  padding: 4px 8px;
+  z-index: 4;
+  pointer-events: none; /* Allow clicks to pass through */
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  background: none; /* Remove the background */
+  opacity: 0.7; /* Make more transparent */
+  transition: opacity 0.3s ease;
+}
+
+/* Fix for scanner instructions not disappearing */
+/* Replace the existing rule with this more reliable one */
+#scanner-placeholder:has(#scanner-target.scan-success) #scanner-instructions {
+  opacity: 0;
+}
+
+/* Alternative solution if :has() isn't well supported in your target browsers */
+#scanner-target.scan-success ~ #scanner-instructions {
+  opacity: 0;
+}
+
+/* Add these new styles to your existing CSS file */
+
+/* Header layout */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%; /* Ensure full width */
+  height: 100%; /* Take full height of header */
+}
+
+/* App title (left) */
+/* Further reduce app title visibility to emphasize the logo */
+.header-content h1 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: white;
+  font-weight: 500;
+  flex: 1;
+  opacity: 0.7; /* Reduced opacity to make logo even more prominent */
+}
+
+/* Logo in center - updated for proper vertical alignment */
+.wpu-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%; /* Position from the middle */
+  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+  height: 162px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.wpu-logo img {
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3)); /* Enhanced shadow for prominence */
+}
+
+/* Authentication section */
+.auth-section {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* Main login button styling */
+.auth-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: white;
+  color: var(--primary-dark);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.auth-btn:hover {
+  background-color: #f8f8f8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-btn i {
+  font-size: 1rem;
+}
+
+/* User panel when logged in */
+#user-panel {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 4px 12px 4px 4px;
+  transition: all 0.2s ease;
+}
+
+.user-info:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: var(--primary-color);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.user-avatar i {
+  font-size: 1.2rem;
+}
+
+#user-email {
+  color: white;
+  font-size: 0.9rem;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-left: 8px;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  box-shadow: none;
+}
+
+#logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: none;
+  box-shadow: none;
+}
+
+#logout-btn i {
+  font-size: 1rem;
+}
+
+/* Login Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  padding: 2rem;
+  position: relative;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal.visible .modal-content {
+  transform: translateY(0);
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #95a5a6;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  box-shadow: none;
+}
+
+.close-modal:hover {
+  color: #7f8c8d;
+  transform: none;
+  box-shadow: none;
+}
+
+.modal-header {
+  margin-bottom: 1.5rem;
+}
+
+.modal-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.modal h2 {
+  color: var(--text-color);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.modal p {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.google-btn:hover {
+  background-color: #3367d6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.google-btn i {
+  font-size: 1.2rem;
+}
+
+#login-error {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #ffebee;
+  color: #c62828;
+  border-radius: 4px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+/* Helper class */
+.hidden {
+  display: none !important;
+}
+
+/* Network status indicator styling */
+#network-status {
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem; /* Position at the top */
+  padding: 0.25rem 0.75rem;
+  background-color: var(--secondary-color);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 0;
+  transition: background-color 0.3s ease;
+}
+
+/* Offline state */
+#network-status.offline {
+  background-color: #95a5a6;
+}
+
+/* Online state */
+#network-status.online {
+  background-color: var(--secondary-color);
+}
+
+/* Make layout responsive */
+@media (max-width: 600px) {
+  .header-content h1 {
+    font-size: 1.1rem;
+  }
+  
+  .wpu-logo {
+    height: 42px;
+  }
+  
+  header {
+    height: 110px;
+    padding: 4rem 1rem 1rem;
+  }
+}
+
+/* Responsive adjustments for the much larger logo */
+@media (max-width: 768px) {
+  header {
+    height: 140px; /* Smaller height for medium screens */
+  }
+}
