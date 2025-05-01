@@ -25,24 +25,141 @@ body {
   padding-bottom: 2rem;
 }
 
-/* Adjust header positioning to properly center the logo */
+/* Header Styles */
 header {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  background-color: #3498db;
   color: white;
-  padding: 1rem; /* Reset padding to standard */
-  text-align: center;
-  box-shadow: var(--shadow-md);
-  margin-bottom: 1.5rem;
-  position: relative;
-  height: 180px; /* Fixed height to accommodate logo */
-  display: flex;
-  align-items: center; /* Vertically center content */
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-header h1 {
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+  min-height: 60px; /* Maintain minimum height for header */
+}
+
+/* Title styling - update since it no longer needs to make space for logo */
+.header-content h1 {
+  font-size: 1.5rem;
   margin: 0;
-  font-size: 1.8rem;
-  letter-spacing: 0.5px;
+  font-weight: bold;
+  white-space: nowrap;
+  opacity: 1; /* Reset opacity to full */
+}
+
+/* Auth section styling - update since no logo to consider */
+.auth-section {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Push to the right */
+}
+
+/* Remove logo-specific CSS blocks:
+.wpu-logo {...}
+.wpu-logo img {...}
+And any references to logo positioning in media queries
+*/
+
+/* Responsive adjustments - update to remove logo considerations */
+@media (max-width: 600px) {
+  .header-content h1 {
+    font-size: 1.1rem;
+  }
+  
+  header {
+    height: auto;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Remove media queries that were specifically for logo size adjustments */
+@media (max-width: 768px) {
+  header {
+    height: auto; /* Reset to auto height */
+  }
+}
+
+@media (min-width: 768px) {
+  .header-content {
+    min-height: 70px; /* Slightly taller header on desktop */
+  }
+  
+  /* Remove margins that were spacing for the logo */
+  .header-content h1 {
+    margin-right: 0;
+  }
+  
+  .auth-section {
+    margin-left: 0;
+  }
+}
+
+/* Rest of the CSS remains unchanged */
+
+/* User panel styling */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-avatar {
+  font-size: 1.2rem;
+}
+
+#user-email {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+#logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+  .header-content {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0;
+  }
+  
+  .auth-section {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  #user-email {
+    max-width: 120px;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 360px) {
+  .header-content h1 {
+    font-size: 1.2rem;
+  }
+  
+  .auth-btn span {
+    font-size: 0.8rem;
+  }
+  
+  #user-email {
+    max-width: 90px;
+  }
 }
 
 /* Add instructions section */
@@ -496,26 +613,6 @@ button:hover {
   opacity: 0.7; /* Reduced opacity to make logo even more prominent */
 }
 
-/* Logo in center - updated for proper vertical alignment */
-.wpu-logo {
-  position: absolute;
-  left: 50%;
-  top: 50%; /* Position from the middle */
-  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
-  height: 162px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-.wpu-logo img {
-  height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3)); /* Enhanced shadow for prominence */
-}
-
 /* Authentication section */
 .auth-section {
   display: flex;
@@ -772,10 +869,6 @@ button:hover {
     font-size: 1.1rem;
   }
   
-  .wpu-logo {
-    height: 42px;
-  }
-  
   header {
     height: 110px;
     padding: 4rem 1rem 1rem;
@@ -786,5 +879,21 @@ button:hover {
 @media (max-width: 768px) {
   header {
     height: 140px; /* Smaller height for medium screens */
+  }
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .header-content {
+    min-height: 70px; /* Slightly taller header on desktop */
+  }
+  
+  /* Add more space on sides to prevent logo from getting too close to edges */
+  .header-content h1 {
+    margin-right: 80px;
+  }
+  
+  .auth-section {
+    margin-left: 80px;
   }
 }
